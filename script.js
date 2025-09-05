@@ -3,11 +3,11 @@ const addButton = document.getElementById('add-note-button');
 const notesContainer = document.getElementById('notes-container');
 const toggleThemeButton = document.getElementById('toggle-theme-button');
 const body = document.body;
-const colors = ['note-yellow'];
+const colors = ['note-yellow', 'note-blue', 'note-pink'];
 
 function createNoteElement(text, colorClass) {
     const noteDiv = document.createElement('div');
-    noteDiv.classList.add('note', colorClass); 
+    noteDiv.classList.add('note', colorClass);
     noteDiv.textContent = text;
 
     const deleteButton = document.createElement('span');
@@ -17,6 +17,14 @@ function createNoteElement(text, colorClass) {
     noteDiv.appendChild(deleteButton);
     return noteDiv;
 }
+
+function saveNotes() {
+    const notes = [];
+    const content = document.querySelectorAll("note");
+    notes.push(content);
+    localStorage.setItem("notes", JSON.stringify(notes));
+}
+
 
 function loadNotes() {
     const storedNotes = [];
@@ -65,7 +73,7 @@ notesContainer.addEventListener('dblclick', (event) => {
             const newText = textarea.value.trim();
             target.textContent = newText;
             target.classList.remove('editing');
-            
+
             const deleteButton = document.createElement('span');
             deleteButton.classList.add('delete-btn');
             deleteButton.textContent = 'x';
@@ -89,8 +97,6 @@ addButton.addEventListener('click', () => {
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         const newNote = createNoteElement(noteText, randomColor);
         notesContainer.appendChild(newNote);
-        const newNoteErr = createNoteElement(noteText, randomColor);
-        notesContainer.appendChild(newNoteErr);
         noteInput.value = '';
         addButton.disabled = true;
         saveNotes();
@@ -117,4 +123,5 @@ notesContainer.addEventListener('mouseout', (event) => {
 });
 
 setInitialTheme();
+saveNotes();
 loadNotes();
