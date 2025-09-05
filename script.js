@@ -5,6 +5,7 @@ const toggleThemeButton = document.getElementById('toggle-theme-button');
 const body = document.body;
 const colors = ['note-yellow', 'note-blue', 'note-pink'];
 
+//Crea las notas
 function createNoteElement(text, colorClass) {
     const noteDiv = document.createElement('div');
     noteDiv.classList.add('note', colorClass);
@@ -18,6 +19,7 @@ function createNoteElement(text, colorClass) {
     return noteDiv;
 }
 
+//deberia guardar en el locar storage 
 function saveNotes() {
     const notes = [];
     const content = document.querySelectorAll("note");
@@ -25,7 +27,7 @@ function saveNotes() {
     localStorage.setItem("notes", JSON.stringify(notes));
 }
 
-
+//Carga las notas que esten guardadas en el local storage
 function loadNotes() {
     const storedNotes = [];
     console.log(storedNotes);
@@ -38,6 +40,7 @@ function loadNotes() {
     }
 }
 
+//Define el tema de la pagina
 function setInitialTheme() {
     const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
     if (isDarkMode) {
@@ -50,6 +53,7 @@ noteInput.addEventListener('input', () => {
     addButton.disabled = noteInput.value.trim() === '';
 });
 
+// le añade la función de darle click al boton de cambiar de tema
 toggleThemeButton.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
     const isDarkMode = body.classList.contains('dark-mode');
@@ -57,6 +61,7 @@ toggleThemeButton.addEventListener('click', () => {
     toggleThemeButton.textContent = isDarkMode ? 'Modo Claro' : 'Modo Oscuro';
 });
 
+//añade la funcion de darle doble click para editar las notas
 notesContainer.addEventListener('dblclick', (event) => {
     const target = event.target;
     if (target.classList.contains('note')) {
@@ -91,6 +96,7 @@ notesContainer.addEventListener('dblclick', (event) => {
     }
 });
 
+//añade el evento de darle click al boton de añadir para aagregar una nota
 addButton.addEventListener('click', () => {
     const noteText = noteInput.value.trim();
     if (noteText !== '') {
@@ -103,6 +109,7 @@ addButton.addEventListener('click', () => {
     }
 });
 
+//añade el evento de darle click al boton de eliminar para borrar una nota
 notesContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('delete-btn')) {
         event.target.parentElement.remove();
